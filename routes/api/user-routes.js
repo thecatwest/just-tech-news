@@ -55,6 +55,29 @@ router.post("/", (req, res) => {
     });
 });
 
+router.post('/login', (req, res) => {
+  // expects {email: 'lernantino@gmail.com', password: 'password1234'}
+  // query User table using findOne() method for email entered by user and assign
+  // to req.body.email
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+      // package user data as new variable, use in callback fn 
+    }).then(dbUserData => {
+      // if no matching user email is found, return error
+      if (!dbUserData) {
+        res.status(400).json({ message: 'No user with that email address!' });
+        return;
+      }
+      // if matching user is found, respond with user info in json
+      // res.json({ user: dbUserData });
+  
+      // Verify user
+  
+    });  
+  });
+
 // PUT /api/users/1
 router.put("/:id", (req, res) => {
   // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
