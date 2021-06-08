@@ -4,12 +4,14 @@ const User = require('./User');
 const Post = require('./Post');
 // import Vote model
 const Vote = require('./Vote');
+// require Comment model
+const Comment = require('./Comment');
 
 // define model associations
 // create association demonstrating a user has many posts
 User.hasMany(Post, {
     foreignKey: 'user_id'
-}); 
+});
 
 // create reverse association demonstrating a post belongs to only one user
 Post.belongsTo(User, {
@@ -47,5 +49,27 @@ Post.hasMany(Vote, {
     foreignKey: 'post_id'
 });
 
+// create direct relationships between Comment and User, and Comment and Post
+Comment.belongsTo(User, {
+    foreignKey: 'user_id'
+});
+
+Comment.belongsTo(Post, {
+    foreignKey: 'post_id'
+});
+
+User.hasMany(Comment, {
+    foreignKey: 'user_id'
+});
+
+Post.hasMany(Comment, {
+    foreignKey: 'post_id'
+});
+
 // export User, Post objects with is as a property
-module.exports = { User, Post, Vote };
+module.exports = {
+    User,
+    Post,
+    Vote,
+    Comment
+};

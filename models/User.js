@@ -34,7 +34,7 @@ User.init(
       // instruct that this is the Primary Key
       primaryKey: true,
       // turn on auto increment
-      autoIncrement: true,
+      autoIncrement: true
     },
     // define a username column
     username: {
@@ -58,7 +58,7 @@ User.init(
       allowNull: false,
       validate: {
         // this means the password must be at least four characters long
-        len: [4],
+        len: [4]
       },
     },
   },
