@@ -1,7 +1,9 @@
 // use Express.js router to keep routes organized
 const router = require("express").Router();
 const {
-  User
+  User,
+  Post,
+  Vote
 } = require("../../models");
 
 // 5 routes for CRUD ops
@@ -29,6 +31,18 @@ router.get("/:id", (req, res) => {
       attributes: {
         exclude: ['password']
       },
+      // replace existing include with this (but there was no previous existing include)
+      include: [{
+          model: Post,
+          attributes: ['id', 'title', 'post_url', 'created_at']
+        },
+        {
+          model: Post,
+          attributes: ['title'],
+          through: Vote,
+          as: 'voted_posts'
+        }
+      ],
       where: {
         id: req.params.id
       }
@@ -75,7 +89,9 @@ router.post('/login', (req, res) => {
   }).then(dbUserData => {
     // if no matching user email is found, return error
     if (!dbUserData) {
-      res.status(400).json({ message: 'No user with that email address!' });
+      res.status(400).json({
+        message: 'No user with that email address!'
+      });
       return;
     }
     // if matching user is found, respond with user info in json
@@ -89,11 +105,16 @@ router.post('/login', (req, res) => {
 
     // if match returns false value, error message is thrown and return statements exits fn
     if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect password!' });
+      res.status(400).json({
+        message: 'Incorrect password!'
+      });
       return;
     }
 
-    res.json({ user: dbUserData, message: 'You are now logged in!' });
+    res.json({
+      user: dbUserData,
+      message: 'You are now logged in!'
+    });
   });
 });
 
