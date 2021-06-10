@@ -39,9 +39,13 @@ router.get('/', (req, res) => {
             console.log(dbPostData[0]);
             // must serialize the data because res.render() method does not auto serialize data like res.json()
             // loop over and map each Sequelize object into a serialized version, save results in new posts array
-            const posts = dbPostData.map(post => post.get({ plain: true }));
+            const posts = dbPostData.map(post => post.get({
+                plain: true
+            }));
             // add array to an object so it can be passed into res.render() method and be updated with new properties later
-            res.render('homepage', { posts });
+            res.render('homepage', {
+                posts
+            });
         })
         .catch(err => {
             console.log(err);
@@ -49,4 +53,20 @@ router.get('/', (req, res) => {
         });
 });
 
+// route to render login/signup page
+router.get('/login', (req, res) => {
+    // check for session an redirect to homepage if one exists
+    if (req.session.loggedIn) {
+      res.redirect('/');
+      return;
+    }
+  
+    res.render('login');
+  });
+
+router.get('/', (req, res) => {
+    console.log(req.session);
+
+
+});
 module.exports = router;
