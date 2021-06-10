@@ -4,6 +4,10 @@ const router = require('express').Router();
 
 const apiRoutes = require('./api');
 
+const homeRoutes = require('./home-routes.js');
+
+router.use('/', homeRoutes);
+
 router.use('/api', apiRoutes);
 
 // second use of router.use() to handle any endpoint requests that don't exist
